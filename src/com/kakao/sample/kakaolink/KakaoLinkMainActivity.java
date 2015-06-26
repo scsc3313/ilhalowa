@@ -45,6 +45,7 @@ public class KakaoLinkMainActivity extends Activity {
     private final String imageSrc = "http://cfile10.uf.tistory.com/image/246EBD3653452615145F8A";
     private final String weblink = "http://ilowajeju.tistory.com";
     private final String facebooklink = "https://www.facebook.com/ilowajeju?fref=ts";
+    private int a;
     /**
      * 메시지를 구성할 텍스트, 이미지, 링크, 버튼을 위한 spinner를 구성한다.
      * 메시지 전송 버튼과 메시지 다시 구성하기 버튼을 만든다.
