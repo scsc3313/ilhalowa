@@ -139,9 +139,9 @@ public class KakaoLinkMainActivity extends Activity {
 	private void sendKakaoTalkLink(String textType, String linkType, String imageType, String buttonType) {
         try {
         	String linkMessage = text.getText().toString();
-//        	Toast toast = Toast.makeText(this, linkMessage, 1);
+//        	Toast toast = Toast.makeText(this, " "+linkMessage.length(), 1);
 //        	toast.show();
-        	if (linkMessage != null || linkMessage.length() != 0 || linkMessage.equals("") || !TextUtils.isEmpty(linkMessage))
+        	if (linkMessage.length() > 0)
                 kakaoTalkLinkMessageBuilder.addText(linkMessage);
 
             if (imageType.equals(getString(R.string.use_image)))
@@ -151,7 +151,7 @@ public class KakaoLinkMainActivity extends Activity {
             if (linkType.equals(getString(R.string.use_weblink))) {
                 kakaoTalkLinkMessageBuilder.addWebLink(getString(R.string.ilowalink_weblink), facebooklink);
             }
-            // 웹싸이트에 등록한 "http://ilowajeju.tistory.com"으로 이동.
+            // 웹싸이트에 등록한 "httpz://ilowajeju.tistory.com"으로 이동.
             if (buttonType.equals(getString(R.string.use_webbutton)))
                 kakaoTalkLinkMessageBuilder.addWebButton(getString(R.string.ilowalink_webbutton), weblink);
 
