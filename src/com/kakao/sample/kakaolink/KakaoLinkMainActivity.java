@@ -21,9 +21,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.kakao.AppActionBuilder;
 import com.kakao.AppActionInfoBuilder;
 import com.kakao.KakaoLink;
@@ -35,10 +39,12 @@ import com.kakao.KakaoTalkLinkMessageBuilder;
  */
 public class KakaoLinkMainActivity extends Activity {
     private KakaoLink kakaoLink;
-    private Spinner text, link, image, button;
+    private Spinner link, image, button;
+    private EditText text;
     private KakaoTalkLinkMessageBuilder kakaoTalkLinkMessageBuilder;
     private final String imageSrc = "http://cfile10.uf.tistory.com/image/246EBD3653452615145F8A";
     private final String weblink = "http://ilowajeju.tistory.com";
+    private final String facebooklink = "https://www.facebook.com/ilowajeju?fref=ts";
 
     /**
      * 메시지를 구성할 텍스트, 이미지, 링크, 버튼을 위한 spinner를 구성한다.
@@ -53,7 +59,7 @@ public class KakaoLinkMainActivity extends Activity {
             kakaoLink = KakaoLink.getKakaoLink(getApplicationContext());
             kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
 
-            text = (Spinner) findViewById(R.id.text);
+            text = (EditText) findViewById(R.id.text);
             image = (Spinner) findViewById(R.id.image);
             link = (Spinner) findViewById(R.id.link);
             button = (Spinner) findViewById(R.id.button);
@@ -65,14 +71,14 @@ public class KakaoLinkMainActivity extends Activity {
         }
     }
 
-    // get the selected dropdown list value
+//Send 버튼
     void addListenerOnSendButton() {
         Button sendButton = (Button) findViewById(R.id.send);
 
         sendButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String textType = String.valueOf(text.getSelectedItem());
+                final String textType = String.valueOf(text.getText());
                 final String linkType = String.valueOf(link.getSelectedItem());
                 final String imageType = String.valueOf(image.getSelectedItem());
                 final String buttonType = String.valueOf(button.getSelectedItem());
@@ -103,7 +109,7 @@ public class KakaoLinkMainActivity extends Activity {
 
         });
     }
-
+//클리어 버튼
     private void addListenerOnClearButton() {
         Button clearButton = (Button) findViewById(R.id.clear);
         clearButton.setOnClickListener(new Button.OnClickListener() {
@@ -116,6 +122,7 @@ public class KakaoLinkMainActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+                            text.setText("일로와입니다.");
                         }
                     })
                     .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -129,35 +136,25 @@ public class KakaoLinkMainActivity extends Activity {
         });
     }
 
-    private void sendKakaoTalkLink(String textType, String linkType, String imageType, String buttonType) {
+    @SuppressWarnings("null")
+	private void sendKakaoTalkLink(String textType, String linkType, String imageType, String buttonType) {
         try {
-        	String linkMessage = "일로와입니다.";
-            if (textType.equals(getString(R.string.use_text)))
+        	String linkMessage = text.getText().toString();
+//        	Toast toast = Toast.makeText(this, linkMessage, 1);
+//        	toast.show();
+        	if (linkMessage != null || linkMessage.length() != 0 || linkMessage.equals("") || !TextUtils.isEmpty(linkMessage))
                 kakaoTalkLinkMessageBuilder.addText(linkMessage);
 
             if (imageType.equals(getString(R.string.use_image)))
-                kakaoTalkLinkMessageBuilder.addImage(imageSrc, 200, 200);
+                kakaoTalkLinkMessageBuilder.addImage(imageSrc, 100, 100);
 
-            // 앱이 설치되어 있는 경우 kakao<app_key>://kakaolink?execparamkey1=1111 로 이동. 앱이 설치되어 있지 않은 경우 market://details?id=com.kakao.sample.kakaolink&referrer=kakaotalklink 또는 https://itunes.apple.com/app/id12345로 이동
-            if (linkType.equals(getString(R.string.use_applink))){
-                kakaoTalkLinkMessageBuilder.addAppLink(getString(R.string.ilowalink_applink),
-                    new AppActionBuilder()
-                            .addActionInfo(AppActionInfoBuilder.createAndroidActionInfoBuilder().setExecuteParam("execparamkey1=1111").setMarketParam("referrer=kakaotalklink").build())
-                            .addActionInfo(AppActionInfoBuilder.createiOSActionInfoBuilder(AppActionBuilder.DEVICE_TYPE.PHONE).setExecuteParam("execparamkey1=1111").build())
-                            .setUrl("http://ilowajeju.tistory.com")
-                            .build());
+            // 웹싸이트에 등록한 "http://ilowajeju.tistory.com"을 overwrite함. overwrite는 같은 도메인만 가능.
+            if (linkType.equals(getString(R.string.use_weblink))) {
+                kakaoTalkLinkMessageBuilder.addWebLink(getString(R.string.ilowalink_weblink), facebooklink);
             }
-            // 웹싸이트에 등록한 "http://www.kakao.com"을 overwrite함. overwrite는 같은 도메인만 가능.
-            else if (linkType.equals(getString(R.string.use_weblink))) {
-                kakaoTalkLinkMessageBuilder.addWebLink(getString(R.string.ilowalink_weblink), weblink);
-            }
-
-            // 웹싸이트에 등록된 kakao<app_key>://kakaolink로 이동
-            if (buttonType.equals(getString(R.string.use_appbutton)))
-                kakaoTalkLinkMessageBuilder.addAppButton(getString(R.string.kakaolink_appbutton), new AppActionBuilder().setUrl("http://ilowajeju.tistory.com").build());
-            // 웹싸이트에 등록한 "http://www.kakao.com"으로 이동.
-            else if (buttonType.equals(getString(R.string.use_webbutton)))
-                kakaoTalkLinkMessageBuilder.addWebButton(getString(R.string.kakaolink_webbutton), null);
+            // 웹싸이트에 등록한 "http://ilowajeju.tistory.com"으로 이동.
+            if (buttonType.equals(getString(R.string.use_webbutton)))
+                kakaoTalkLinkMessageBuilder.addWebButton(getString(R.string.ilowalink_webbutton), weblink);
 
             kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
         } catch (KakaoParameterException e) {

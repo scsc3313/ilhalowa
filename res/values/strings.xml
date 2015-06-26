@@ -10,8 +10,8 @@
     <string name="link_type">Choose a link type</string>
     <string-array name="link_types">
         <item>@string/use_weblink</item>
-        <item>@string/use_applink</item>
         <item>@string/no_link</item>
+
     </string-array>
 
     <string name="image_type">Choose a image type</string>
@@ -22,7 +22,7 @@
 
     <string name="button_type">Choose a button type</string>
     <string-array name="button_types">
-        <item>@string/use_appbutton</item>
+
         <item>@string/use_webbutton</item>
         <item>@string/no_button</item>
     </string-array>
@@ -33,19 +33,17 @@
 
     <string name="use_text">Use Text</string>
     <string name="no_text">No Text</string>
-    <string name="use_applink">Use App Link</string>
     <string name="use_weblink">Use Web Link</string>
     <string name="no_link">No Link</string>
     <string name="use_image">Use Image</string>
     <string name="no_image">No Image</string>
-    <string name="use_appbutton">Use App Button</string>
     <string name="use_webbutton">Use Web Button</string>
     <string name="no_button">No Button</string>
 
     <string name="kakaolink_text">Welcome to KakaoLinkSample~</string>
-    <string name="kakaolink_applink">View More</string>
+
     <string name="kakaolink_weblink">Go to Website</string>
-    <string name="kakaolink_appbutton">View More</string>
+
     <string name="kakaolink_webbutton">Go to Website</string>
     <string name="send_message">Send the message below?</string>
 

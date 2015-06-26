@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <include
         android:id="@+id/main_activity_layout_title"
@@ -10,12 +10,16 @@
         android:layout_height="wrap_content"
         layout="@layout/activity_title" />
 
-    <Spinner
+    <EditText
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/text_types"
-        android:prompt="@string/text_type" />
+        android:layout_weight="23.60"
+        android:ems="10"
+        android:text="일로와입니다." >
+
+        <requestFocus />
+    </EditText>
 
     <Spinner
         android:id="@+id/image"
@@ -38,7 +42,6 @@
         android:entries="@array/button_types"
         android:prompt="@string/button_type" />
 
-
     <Button
         android:id="@+id/send"
         android:layout_width="match_parent"
@@ -50,4 +53,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/clear_button" />
+
 </LinearLayout>
